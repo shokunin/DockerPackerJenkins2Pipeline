@@ -1,0 +1,44 @@
+{
+  "variables": {
+    "base_container"  : "{{ env `BASE_CONTAINER` }}",
+    "docker_registry" : "{{ env `DOCKER_REGISTRY` }}",
+    "container_name"  : "{{ env `CONTAINER_NAME` }}"
+ },
+  "builders": [
+    {
+      "type"   : "docker",
+      "image"  : "{{user `base_container`}}",
+      "export_path": "docker.tar"
+    }
+  ],
+  "provisioners": [
+    {
+      "type"   : "shell",
+      "inline" : [
+	"apt-get -y update",
+	"apt-get install -y python-pip python-dev libssl-dev libffi-dev",
+	"pip install ansible"
+      ]
+    },
+    {
+      "type"        : "file",
+      "source"      : "./ansible/roles/",
+      "destination" : "/tmp/packer-provisioner-ansible-local/roles/"
+    },
+    {
+      "type"           : "ansible-local",
+      "playbook_file"  : "./ansible/playbook.yml",
+      "host_vars"      : "./ansible/vars"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type" : "docker-import",
+	"repository" : "{{user `docker_registry`}}/{{user `container_name` }}",
+        "tag" : "latest"
+      },
+      "docker-push"
+    ]
+  ]
+}

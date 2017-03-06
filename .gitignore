@@ -1,0 +1,22 @@
+# ---> Packer
+# Cache objects
+packer_cache/
+
+# For built boxes
+*.box
+
+# For Ansible
+ansible/playbook.retry
+
+# For Vagrant
+.tmp
+tmp/*
+.librarian
+.vagrant
+*-console.log
+ansible/roles/*
+
+# Setup Env/Gems
+set_env.sh
+Gemfile.lock
+
