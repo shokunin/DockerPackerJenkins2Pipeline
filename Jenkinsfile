@@ -11,20 +11,12 @@ node {
   bundle install --path=.bundle/gems/
   '''
 
-  stage 'Check Environment'
+  stage 'Build Container'
   sh '''#!/bin/bash
   source ~/.rvm/scripts/rvm
   source set_env.sh
   rvm use `cat .ruby-version`@`cat .ruby-gemset`
-  bundle exec rake check_env
-  '''
-
-  stage 'Update Galaxy'
-  sh '''#!/bin/bash
-  source ~/.rvm/scripts/rvm
-  source set_env.sh
-  rvm use `cat .ruby-version`@`cat .ruby-gemset`
-  bundle exec rake update_galaxy
+  bundle exec rake build_full_container
   '''
 
 }
