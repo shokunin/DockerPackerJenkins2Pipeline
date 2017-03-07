@@ -14,6 +14,7 @@ node {
   stage 'Check Environment'
   sh '''#!/bin/bash
   source ~/.rvm/scripts/rvm
+  source set_env.sh
   rvm use `cat .ruby-version`@`cat .ruby-gemset`
   bundle exec rake check_env
   '''
@@ -21,6 +22,7 @@ node {
   stage 'Update Galaxy'
   sh '''#!/bin/bash
   source ~/.rvm/scripts/rvm
+  source set_env.sh
   rvm use `cat .ruby-version`@`cat .ruby-gemset`
   bundle exec rake update_galaxy
   '''

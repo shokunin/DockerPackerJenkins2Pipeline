@@ -17,6 +17,5 @@ tmp/*
 ansible/roles/*
 
 # Setup Env/Gems
-set_env.sh
 Gemfile.lock
 
